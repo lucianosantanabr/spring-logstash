@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration packages="biz.paluch.logging.gelf.log4j2">
+
+  <Properties>
+    <Property name="default_pattern">[%d{${LOG_DATEFORMAT_PATTERN}}] %p [%c{1}-%M:%L] %m%n
+    </Property>
+    <Property name="LOG_EXCEPTION_CONVERSION_WORD">%xwEx</Property>
+    <Property name="LOG_LEVEL_PATTERN">%5p</Property>
+    <Property name="LOG_DATEFORMAT_PATTERN">ISO8601_OFFSET_DATE_TIME_HH</Property>
+    <Property name="CONSOLE_LOG_PATTERN">%clr{${LOG_LEVEL_PATTERN}} %clr{%pid} %clr{---} %clr{[%15.15t]} %clr{%-40.40c{1.}} %clr{:} %m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}
+    </Property>
+  </Properties>
+
+  <Appenders>
+    <Console name="console">
+      <PatternLayout pattern="${CONSOLE_LOG_PATTERN}"/>
+      <Filters>
+        <ThresholdFilter level="INFO"/>
+      </Filters>
+    </Console>
+    <Gelf name="gelf"
+      host="udp:localhost"
+      port="12202"
+      version="1.1"
+      mdcProfiling="true"
+      includeFullMdc="true"
+      additionalFieldTypes="tags=String,app=String"
+      extractStackTrace="true"
+      filterStackTrace="true"
+      maximumMessageSize="8192">
+      <Field name="facility" pattern="gelf-java"/>
+      <Field name="Threshold" pattern="%level"/>
+      <Field name="tags" literal="NEGOCIOS,LOCAL"/>
+      <Field name="app" literal="spring-logstash"/>
+    </Gelf>
+  </Appenders>
+
+  <Loggers>
+    <AsyncLogger name="io.undertow" level="warn"/>
+    <AsyncLogger name="org.springframework" level="warn"/>
+    <AsyncLogger name="org.hibernate" level="warn"/>
+    <AsyncLogger name="org.apache" level="warn"/>
+    <AsyncLogger name="com.spring.logstash" level="debug"/>
+    <AsyncRoot level="info">
+      <AppenderRef ref="console"/>
+      <AppenderRef ref="gelf"/>
+    </AsyncRoot>
+  </Loggers>
+
+</Configuration>

@@ -1,0 +1,37 @@
+version: '3'
+networks:
+  app-tier:
+    driver: bridge
+services:
+  elasticsearch:
+    image: elasticsearch:7.8.0
+    networks:
+      - app-tier
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      - discovery.type=single-node
+  logstash:
+    image: logstash:7.8.0
+    networks:
+      - app-tier
+    ports:
+      - 12201:12201
+      - 12202:12202/udp
+    depends_on:
+      - elasticsearch
+    links:
+      - elasticsearch
+    volumes:
+      - ./pipeline/:/usr/share/logstash/pipeline/
+  kibana:
+    image: kibana:7.8.0
+    networks:
+      - app-tier
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+    links:
+      - elasticsearch
