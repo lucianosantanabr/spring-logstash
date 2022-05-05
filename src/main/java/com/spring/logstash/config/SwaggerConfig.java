@@ -30,7 +30,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
   private @Autowired(required = false)
   BuildProperties build;
 
-  @Value("${spring.application.name:app-spring-logstash}")
+  @Value("${spring.application.name}")
   private String application;
 
   @Bean

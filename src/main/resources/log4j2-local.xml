@@ -37,10 +37,21 @@
 
   <Loggers>
     <AsyncLogger name="io.undertow" level="warn"/>
+    <AsyncLogger name="org.camunda" level="warn"/>
+    <AsyncLogger name="com.zaxxer.hikari" level="warn"/>
+    <AsyncLogger name="org.apache.catalina" level="warn"/>
     <AsyncLogger name="org.springframework" level="warn"/>
+    <AsyncLogger name="org.springframework.web.servlet" level="warn"/>
+    <AsyncLogger name="Validator" level="warn"/>
     <AsyncLogger name="org.hibernate" level="warn"/>
     <AsyncLogger name="org.apache" level="warn"/>
-    <AsyncLogger name="com.spring.logstash" level="debug"/>
+    <AsyncLogger name="org.jboss" level="warn"/>
+    <AsyncLogger name="io.micrometer.core" level="warn"/>
+    <AsyncLogger name="springfox" level="warn"/>
+    <AsyncLogger name="io.springfox" level="warn"/>
+    <AsyncLogger name="org.bouncycastle" level="warn"/>
+    <AsyncLogger name="net.schmizz" level="warn"/>
+
     <AsyncRoot level="info">
       <AppenderRef ref="console"/>
       <AppenderRef ref="gelf"/>
